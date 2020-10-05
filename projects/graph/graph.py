@@ -2,6 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+from collections import deque
 
 class Graph:
 
@@ -13,33 +14,68 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError('nonexistent error ')
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
-
+        return self.vertices[vertex_id]
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+        visited = set()
+        
+        q.enqueue(starting_vertex)
+        
+        while q.size() > 0:
+            
+            v = q.dequeue()
+            
+            if v not in visited:
+                print(v)
+                
+                visited.add(v)
+                
+                for neighbor in self.get_neighbors(v):
+                    q.enqueue(neighbor)
+                
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Stack()
+        visited = set()
+        
+        q.push(starting_vertex)
+        
+        
+        while q.size() > 0:
+            
+            v = q.pop()
+            
+            if v not in visited:
+                print(v)
+                
+                visited.add(v)
+                
+                
+                for neighbor in self.get_neighbors(v):
+                    q.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -48,7 +84,7 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        pass
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -56,15 +92,32 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
-
+        q = deque()
+        q.append([starting_vertex])
+        visited = set()
+        
+        while len(q) > 0:
+            currPath = q.popleft()
+            currNode = currPath[-1]
+            if currNode == destination_vertex:
+                return currPath
+            if currNode not in visited:
+                visited.add(currNode)
+                for neighbor in self.get_neighbors(currNode):
+                    newPath = list(currPath)
+                    newPath.append(neighbor)
+                    q.append(newPath)
+            
+                        
+            
+        
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -96,6 +149,7 @@ if __name__ == '__main__':
     graph.add_edge(3, 5)
     graph.add_edge(2, 3)
     graph.add_edge(4, 6)
+    
 
     '''
     Should print:
@@ -118,6 +172,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print('Breadeth-First Transversal')
     graph.bft(1)
 
     '''
@@ -127,6 +182,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('Depth-First Transversal')
     graph.dft(1)
     graph.dft_recursive(1)
 
@@ -134,6 +190,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print('Breadeth-First Search')
     print(graph.bfs(1, 6))
 
     '''
@@ -141,5 +198,6 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print('Depth-First Search')
     print(graph.dfs(1, 6))
     print(graph.dfs_recursive(1, 6))
