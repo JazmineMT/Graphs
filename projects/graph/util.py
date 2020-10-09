@@ -26,3 +26,19 @@ class Stack():
     def size(self):
         return len(self.stack)
 
+
+# def get_neighbors(self,v):
+#     return self.vertices[v]
+
+# def bft(self, starting_vertext_id):
+#     q = Queue()
+#     visited = set()
+    
+#     while q.size() > 0:
+#     v = q.dequeue()
+    
+#     if v not in visited:
+#         print(v)
+        
+#         for neighbor in self.get_neighbors(v):
+#             q.enqueue(neighbor)
